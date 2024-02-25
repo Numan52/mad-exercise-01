@@ -8,18 +8,60 @@
 
 ## Questions
 ### Describe how Kotlin handles null safety. What are nullable types and non-null types in Kotlin? (0,5 points)
-
 <span style="color:blue">Provide your answer here! </span>
-> Note: you can also use code snippets to illustrate your answer. 
 
+In Kotlin, the type system distinguishes between references that can hold null (nullable references) and those that cannot (non-nullable references).
+For example, a regular variable of type String cannot hold null:
 ```kotlin 
-// example code snippet
-val a: String = "value" // non-null type
+var a: String = "abc" // Regular initialization means non-nullable by default
+a = null // compilation error
+```
+To allow nulls, you can declare a variable as a nullable string by writing String?:
+```
+var b: String? = "abc" // can be set to null
+b = null // ok
+```
+Trying to access b's properties results in a compilation error since it is not safe.
+```
+val l = b.length // error: variable 'b' can be null
+```
+You need to make sure that b is not null to access its properties:
+```
+val b: String? = "Kotlin"
+if (b != null && b.length > 0) {
+    print("String of length ${b.length}")
+} else {
+    print("Empty string")
+}
+```
+Or like this using safe calls: 
+```
+val a = "Kotlin"
+val b: String? = null
+println(b?.length)
+println(a?.length) // Unnecessary safe call
 ```
 
-### What are lambda expressions and higher order functions in Kotlin? Why would you store a function inside a variable? (0,5 points)
 
-<span style="color:blue">Provide your answer here!</span>
+### What are lambda expressions and higher order functions in Kotlin? Why would you store a function inside a variable? (0,5 points)
+In Kotlin, lambda expressions are a concise way to declare anonymous functions. They are often used for defining short functions without the need for a full function declaration.
+Example of a lambda expression:
+```
+val add: (Int, Int) -> Int = { a, b -> a + b }
+```
+In this example, add is a variable storing a lambda expression that takes two Int parameters and returns their sum.
+
+Higher-order functions are functions that take one or more functions as parameters or return a function. 
+Kotlin supports higher-order functions, allowing you to pass functions as arguments or return them from other functions.
+Example of a higher-order function:
+```
+fun operateOnNumbers(a: Int, b: Int, operation: (Int, Int) -> Int): Int {
+    return operation(a, b)
+}
+```
+Why would you store a function inside a variable?
+Functions stored in variables can be easily passed as arguments to other functions.
+Also, functions stored in variables can also be returned from other functions.
 
 ### Provide a solution for the following number guessing game inside `App.kt`. (3 points)
 
